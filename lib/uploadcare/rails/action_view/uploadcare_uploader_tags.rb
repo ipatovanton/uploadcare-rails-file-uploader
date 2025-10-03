@@ -59,6 +59,14 @@ module Uploadcare
 
           uploader_tag = tag.send(uploader_component, **uploader_attrs)
 
+          # File count indicator (clickable to open dialog)
+          file_count_id = "#{ctx_name}-file-count"
+          file_count_tag = tag.span('',
+            id: file_count_id,
+            class: 'uploadcare-file-count',
+            style: 'cursor: pointer; color: #157cfc; text-decoration: underline; display: none;',
+            title: 'Click to manage files')
+
           # Hidden field to store the result with initial value
           hidden_tag = hidden_field(object_name, method_name,
             id: "#{object_name}_#{method_name}",
@@ -85,11 +93,35 @@ module Uploadcare
                 const ctxProvider = document.querySelector('uc-upload-ctx-provider[ctx-name="#{ctx_name}"]');
                 const input = document.getElementById('#{object_name}_#{method_name}');
                 const uploaderElement = document.querySelector('#{uploader_component}[ctx-name="#{ctx_name}"]');
+                const fileCountElement = document.getElementById('#{file_count_id}');
                 const isMultiple = #{is_multiple};
 
                 if (!ctxProvider || !input) {
                   console.error('Uploadcare: ctxProvider or input not found');
                   return;
+                }
+
+                // Function to update file count indicator
+                function updateFileCount(count) {
+                  if (!fileCountElement) return;
+
+                  if (count > 0) {
+                    const label = count === 1 ? 'image' : 'files';
+                    fileCountElement.textContent = `${count} ${label}`;
+                    fileCountElement.style.display = 'inline';
+                  } else {
+                    fileCountElement.style.display = 'none';
+                  }
+                }
+
+                // Make file count clickable to open uploader dialog
+                if (fileCountElement) {
+                  fileCountElement.addEventListener('click', () => {
+                    const api = ctxProvider.getAPI ? ctxProvider.getAPI() : ctxProvider;
+                    if (api.initFlow) {
+                      api.initFlow();
+                    }
+                  });
                 }
 
               // Function to update hidden input from uploader state
@@ -100,6 +132,9 @@ module Uploadcare
 
                 // getOutputCollectionState() returns an object with successEntries array
                 const successFiles = state.successEntries || [];
+
+                // Update file count indicator
+                updateFileCount(successFiles.length);
 
                 // Don't clear input if files are still uploading/processing
                 if (successFiles.length === 0 && state.uploadingCount === 0) {
@@ -179,7 +214,7 @@ module Uploadcare
             })();
           JS
 
-          safe_join([config_tag, ctx_provider_tag, uploader_tag, hidden_tag, script_tag])
+          safe_join([config_tag, ctx_provider_tag, uploader_tag, file_count_tag, hidden_tag, script_tag])
         end
 
         def uploadcare_uploader_field_tag(object_name, options = {})
@@ -213,6 +248,14 @@ module Uploadcare
 
           uploader_tag = tag.send(uploader_component, **uploader_attrs)
 
+          # File count indicator (clickable to open dialog)
+          file_count_id = "#{ctx_name}-file-count"
+          file_count_tag = tag.span('',
+            id: file_count_id,
+            class: 'uploadcare-file-count',
+            style: 'cursor: pointer; color: #157cfc; text-decoration: underline; display: none;',
+            title: 'Click to manage files')
+
           hidden_tag = hidden_field_tag(object_name, value, id: ctx_name)
 
           script_tag = javascript_tag(<<~JS)
@@ -235,11 +278,35 @@ module Uploadcare
                 const ctxProvider = document.querySelector('uc-upload-ctx-provider[ctx-name="#{ctx_name}"]');
                 const input = document.getElementById('#{ctx_name}');
                 const uploaderElement = document.querySelector('#{uploader_component}[ctx-name="#{ctx_name}"]');
+                const fileCountElement = document.getElementById('#{file_count_id}');
                 const isMultiple = #{is_multiple};
 
                 if (!ctxProvider || !input) {
                   console.error('Uploadcare: ctxProvider or input not found');
                   return;
+                }
+
+                // Function to update file count indicator
+                function updateFileCount(count) {
+                  if (!fileCountElement) return;
+
+                  if (count > 0) {
+                    const label = count === 1 ? 'image' : 'files';
+                    fileCountElement.textContent = `${count} ${label}`;
+                    fileCountElement.style.display = 'inline';
+                  } else {
+                    fileCountElement.style.display = 'none';
+                  }
+                }
+
+                // Make file count clickable to open uploader dialog
+                if (fileCountElement) {
+                  fileCountElement.addEventListener('click', () => {
+                    const api = ctxProvider.getAPI ? ctxProvider.getAPI() : ctxProvider;
+                    if (api.initFlow) {
+                      api.initFlow();
+                    }
+                  });
                 }
 
               // Function to update hidden input from uploader state
@@ -250,6 +317,9 @@ module Uploadcare
 
                 // getOutputCollectionState() returns an object with successEntries array
                 const successFiles = state.successEntries || [];
+
+                // Update file count indicator
+                updateFileCount(successFiles.length);
 
                 // Don't clear input if files are still uploading/processing
                 if (successFiles.length === 0 && state.uploadingCount === 0) {
@@ -329,7 +399,7 @@ module Uploadcare
             })();
           JS
 
-          safe_join([config_tag, ctx_provider_tag, uploader_tag, hidden_tag, script_tag])
+          safe_join([config_tag, ctx_provider_tag, uploader_tag, file_count_tag, hidden_tag, script_tag])
         end
 
         private
