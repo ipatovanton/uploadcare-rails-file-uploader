@@ -355,20 +355,23 @@ module Uploadcare
           # Map configuration options to attributes first
           config = Uploadcare::Rails.configuration
 
-          attrs[:'img-only'] = config_options[:img_only] || config.images_only if config.images_only
-          attrs[:locale] = config_options[:locale] || config.locale if config.locale
-
-          # Note: multiple is handled separately below, never add it from config
+          # Add locale if present
+          attrs[:locale] = config_options[:locale] || config.locale if config_options[:locale] || config.locale
 
           # Add any custom config options (skip multiple - we handle it separately)
           config_options.each do |key, value|
             key_str = key.to_s
             # Skip special keys that are handled separately (check both symbol and string versions)
-            next if %w[img_only locale multiple].include?(key_str.underscore)
-            attr_name = key_str.underscore.dasherize
-            # Skip if value is the same as the key (invalid)
-            next if value.to_s == key.to_s
-            attrs[attr_name.to_sym] = value
+            next if %w[locale multiple].include?(key_str.underscore)
+            attr_name = key_str.underscore.dasherize.to_sym
+            # Skip if value is the same as the key (invalid) or if already exists
+            next if value.to_s == key.to_s || attrs.key?(attr_name)
+            attrs[attr_name] = value
+          end
+
+          # Add img_only from global config if not already set
+          if config.images_only && !attrs.key?(:'img-only')
+            attrs[:'img-only'] = 'true'
           end
 
           # Always add multiple attribute explicitly at the end (as string per Uploadcare docs)
