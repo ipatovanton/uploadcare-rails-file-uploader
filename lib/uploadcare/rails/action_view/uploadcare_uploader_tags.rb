@@ -36,8 +36,8 @@ module Uploadcare
 
           # Build uc-config tag
           config_attrs = {
-            'ctx-name': ctx_name,
-            'pubkey': Uploadcare::Rails.configuration.public_key
+            :'ctx-name' => ctx_name,
+            :pubkey => Uploadcare::Rails.configuration.public_key
           }.merge(uploadcare_config_attributes(config_options, is_multiple))
 
           # Build uc-config manually because Rails tag helper treats 'multiple' as boolean HTML attribute
@@ -191,8 +191,8 @@ module Uploadcare
           is_multiple = options[:multiple] || false
 
           config_attrs = {
-            'ctx-name': ctx_name,
-            'pubkey': Uploadcare::Rails.configuration.public_key
+            :'ctx-name' => ctx_name,
+            :pubkey => Uploadcare::Rails.configuration.public_key
           }.merge(uploadcare_config_attributes(config_options, is_multiple))
 
           # Build uc-config manually because Rails tag helper treats 'multiple' as boolean HTML attribute
@@ -355,15 +355,17 @@ module Uploadcare
           # Map configuration options to attributes first
           config = Uploadcare::Rails.configuration
 
+          # Normalize config_options keys to symbols to prevent string/symbol key conflicts
+          normalized_options = config_options.transform_keys { |k| k.to_s.underscore.to_sym }
+
           # Add locale if present
-          attrs[:locale] = config_options[:locale] || config.locale if config_options[:locale] || config.locale
+          attrs[:locale] = normalized_options[:locale] || config.locale if normalized_options[:locale] || config.locale
 
           # Add any custom config options (skip multiple - we handle it separately)
-          config_options.each do |key, value|
-            key_str = key.to_s
-            # Skip special keys that are handled separately (check both symbol and string versions)
-            next if %w[locale multiple].include?(key_str.underscore)
-            attr_name = key_str.underscore.dasherize.to_sym
+          normalized_options.each do |key, value|
+            # Skip special keys that are handled separately
+            next if %i[locale multiple].include?(key)
+            attr_name = key.to_s.dasherize.to_sym
             # Skip if value is the same as the key (invalid) or if already exists
             next if value.to_s == key.to_s || attrs.key?(attr_name)
             attrs[attr_name] = value
