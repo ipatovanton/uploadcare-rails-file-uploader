@@ -1,0 +1,45 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    needs: code-analysis
+    strategy:
+      matrix:
+        gemfile:
+          - Gemfile
+          - gemfiles/Gemfile-rails-7-2
+          - gemfiles/Gemfile-rails-7-1
+          - gemfiles/Gemfile-rails-7-0
+        ruby:
+          - 3.0
+          - 3.1
+          - 3.2
+          - 3.3
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+      UPLOADCARE_PUBLIC_KEY: demopublickey
+      UPLOADCARE_SECRET_KEY: demoprivatekey
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # runs bundle install and caches installed gems automatically
+      - run: bundle exec rake
+
+  code-analysis:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version:
+          - 3.3
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: Check code
+      run: bundle exec rubocop

@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://api.uploadcare.com/files/2254146d-3652-4419-abf6-305d36ef30a8/storage/
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/vnd.uploadcare-v0.7+json
+      User-Agent:
+      - UploadcareRuby/4.0.0/5d5bb5639e3f2df33674 (Ruby/2.7.6)
+      Date:
+      - Sat, 29 Oct 2022 16:40:33 GMT
+      Authorization:
+      - Uploadcare 5d5bb5639e3f2df33674:7e5f316162ee5935900dd5978dd442389f2430c6
+      Connection:
+      - close
+      Host:
+      - api.uploadcare.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 29 Oct 2022 16:40:34 GMT
+      Content-Type:
+      - application/vnd.uploadcare-v0.7+json
+      Content-Length:
+      - '641'
+      Connection:
+      - close
+      Server:
+      - nginx
+      Warning:
+      - '199 Miscellaneous warning: Please use API version 0.5, not 0.7'
+      Access-Control-Allow-Origin:
+      - https://uploadcare.com
+      Vary:
+      - Accept
+      Allow:
+      - DELETE, GET, HEAD, OPTIONS, POST, PUT
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Uploadcare-Request-Id:
+      - c225d61e-d720-4b49-83ef-3622fcd42f72
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Robots-Tag:
+      - noindex, nofollow, nosnippet, noarchive
+    body:
+      encoding: ASCII-8BIT
+      string: '{"datetime_removed":"2022-10-29T16:40:34.463022Z","datetime_stored":null,"datetime_uploaded":"2022-10-25T11:11:47.120330Z","is_image":true,"is_ready":true,"mime_type":"image/png","original_file_url":null,"original_filename":"image.png","size":2182,"url":"https://api.uploadcare.com/files/2254146d-3652-4419-abf6-305d36ef30a8/","uuid":"2254146d-3652-4419-abf6-305d36ef30a8","variations":null,"content_info":{"mime":{"mime":"image/png","type":"image","subtype":"png"},"image":{"dpi":null,"width":50,"format":"PNG","height":42,"sequence":false,"color_mode":"RGBA","orientation":null,"geo_location":null,"datetime_original":null}},"metadata":{}}'
+  recorded_at: Sat, 29 Oct 2022 16:40:34 GMT
+recorded_with: VCR 6.1.0

@@ -1,0 +1,54 @@
+# frozen_string_literal: true
+
+Uploadcare::Rails.configure do |config|
+  # Sets your Uploadcare public key.
+  config.public_key = ENV.fetch('UPLOADCARE_PUBLIC_KEY', 'demopublickey')
+  # config.secret_key = ENV.fetch('UPLOADCARE_SECRET_KEY', 'demosecretkey')
+
+  # Stores files to Uploadcare servers after object save.
+  config.store_files_after_save = true
+
+  # Deletes files from Uploadcare servers after object destroy.
+  config.delete_files_after_destroy = true
+
+  # Sets caching for Uploadcare files
+  config.cache_namespace = 'uploadcare'
+  config.cache_files = true
+  config.cache_expires_in = 1.day
+
+  # These options enables ActiveJob background jobs to perform operations in background.
+  # Options work if only the option 'do_not_store' is disabled (false) and
+  # the option 'delete_files_after_destroy' is enabled (true).
+  config.store_files_async = true
+  config.delete_files_async = true
+
+  # ==========================================
+  # File Uploader Configuration
+  # ==========================================
+  # See https://uploadcare.com/docs/file-uploader/ for more info
+
+  # If true, only image files are allowed to be uploaded.
+  # config.img_only = false
+
+  # Maximum file size in bytes (e.g., 10485760 for 10 MB)
+  # config.max_local_file_size_bytes = 10485760
+
+  # Upload sources (e.g., "local, url, camera, dropbox, gdrive")
+  # config.source_list = "local, url, camera"
+
+  # Enable cloud image editor
+  # config.use_cloud_image_editor = false
+
+  # Available locales currently are:
+  # ar az ca cs da de el en es et fr he it ja ko lv nb nl pl pt ro ru sk sr sv tr uk vi zhTW zh
+  config.locale = 'en'
+
+  # Whether to ask for confirmation before uploading
+  # config.confirm_upload = false
+
+  # Whether to store files automatically after upload
+  # config.store = true
+
+  # Forces files uploaded with a file uploader not to be stored.
+  # config.do_not_store = false
+end

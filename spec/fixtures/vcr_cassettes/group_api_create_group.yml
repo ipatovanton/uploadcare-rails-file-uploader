@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://upload.uploadcare.com/group/
+    body:
+      encoding: UTF-8
+      string: "-----------------------dafb93cbc30d698e13a17f04d5c1b66386c88c822f\r\nContent-Disposition:
+        form-data; name=\"pub_key\"\r\n\r\n5d5bb5639e3f2df33674\r\n-----------------------dafb93cbc30d698e13a17f04d5c1b66386c88c822f\r\nContent-Disposition:
+        form-data; name=\"files[0]\"\r\n\r\n272cbffa-4a27-4aba-98f1-a36e2e017e24/resize/x600\r\n-----------------------dafb93cbc30d698e13a17f04d5c1b66386c88c822f\r\nContent-Disposition:
+        form-data; name=\"files[1]\"\r\n\r\n36892dd8-ccb1-4225-bc48-96a0fde93b33/resize/x600\r\n-----------------------dafb93cbc30d698e13a17f04d5c1b66386c88c822f--\r\n"
+    headers:
+      User-Agent:
+      - UploadcareRuby/4.0.0/5d5bb5639e3f2df33674 (Ruby/2.7.6)
+      Content-Type:
+      - multipart/form-data; boundary=---------------------dafb93cbc30d698e13a17f04d5c1b66386c88c822f
+      Connection:
+      - close
+      Host:
+      - upload.uploadcare.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 29 Oct 2022 19:26:05 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1732'
+      Connection:
+      - close
+      Server:
+      - nginx
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT, X-UC-User-Agent, X-PINGOTHER
+      Access-Control-Max-Age:
+      - '1'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - Warning, Retry-After
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Uploadcare-Request-Id:
+      - 711a2fa2-0c02-42be-9f48-49e77c187346
+    body:
+      encoding: UTF-8
+      string: '{"id":"2e82a787-0059-4214-8ee2-d1493ac49e84~2","datetime_created":"2022-10-29T19:26:05.356641Z","datetime_stored":null,"files_count":2,"cdn_url":"https://ucarecdn.com/2e82a787-0059-4214-8ee2-d1493ac49e84~2/","url":"https://api.uploadcare.com/groups/2e82a787-0059-4214-8ee2-d1493ac49e84~2/","files":[{"size":2766,"total":2766,"done":2766,"uuid":"272cbffa-4a27-4aba-98f1-a36e2e017e24","file_id":"272cbffa-4a27-4aba-98f1-a36e2e017e24","original_filename":"image.png","is_image":true,"is_stored":true,"image_info":{"dpi":null,"width":50,"format":"PNG","height":42,"sequence":false,"color_mode":"RGBA","orientation":null,"geo_location":null,"datetime_original":null},"video_info":null,"content_info":{"mime":{"mime":"image/png","type":"image","subtype":"png"},"image":{"dpi":null,"width":50,"format":"PNG","height":42,"sequence":false,"color_mode":"RGBA","orientation":null,"geo_location":null,"datetime_original":null}},"is_ready":true,"filename":"image.png","mime_type":"image/png","metadata":{},"default_effects":""},{"size":2950,"total":2950,"done":2950,"uuid":"36892dd8-ccb1-4225-bc48-96a0fde93b33","file_id":"36892dd8-ccb1-4225-bc48-96a0fde93b33","original_filename":"image.png","is_image":true,"is_stored":true,"image_info":{"dpi":null,"width":50,"format":"PNG","height":42,"sequence":false,"color_mode":"RGBA","orientation":null,"geo_location":null,"datetime_original":null},"video_info":null,"content_info":{"mime":{"mime":"image/png","type":"image","subtype":"png"},"image":{"dpi":null,"width":50,"format":"PNG","height":42,"sequence":false,"color_mode":"RGBA","orientation":null,"geo_location":null,"datetime_original":null}},"is_ready":true,"filename":"image.png","mime_type":"image/png","metadata":{},"default_effects":""}]}'
+  recorded_at: Sat, 29 Oct 2022 19:26:05 GMT
+recorded_with: VCR 6.1.0

@@ -1,0 +1,8 @@
+--readme README.md
+--title 'Uploadcare Rails API Documentation'
+--charset utf-8
+--markup markdown
+-
+CHANGELOG.md
+LICENSE.txt
+v2.x-migrations-guide.md
