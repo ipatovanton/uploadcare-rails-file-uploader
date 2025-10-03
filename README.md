@@ -11,7 +11,7 @@ Based on [uploadcare-ruby](https://github.com/uploadcare/uploadcare-ruby) gem (g
 
 :heavy_exclamation_mark: *Note: the gem uploadcare-rails 2.x is not backward compatible with 1.x.*
 
-:tada: **New in 3.x:** This version now supports the new [Uploadcare File Uploader](https://uploadcare.com/docs/file-uploader/), which is 57% lighter and more modern than the legacy widget 3.x. Legacy widget support is maintained for backward compatibility.
+:tada: **New in 3.x:** This version now supports the new [Uploadcare File Uploader](https://uploadcare.com/docs/file-uploader/), which is 57% lighter and more modern.
 
 ## Table of Contents
 
@@ -50,25 +50,8 @@ Based on [uploadcare-ruby](https://github.com/uploadcare/uploadcare-ruby) gem (g
 
 ## Migration from Widget 3.x to File Uploader
 
-If you're upgrading from an earlier version that used the legacy widget 3.x, here's what you need to know:
+The new File Uploader uses modern Web Components:
 
-### What's Changed
-
-The new File Uploader uses modern Web Components instead of the old jQuery-based widget:
-
-**Old (Widget 3.x):**
-```erb
-<%= uploadcare_include_tag %>
-<!-- Results in:
-<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
-<script>
-  UPLOADCARE_PUBLIC_KEY = 'your_public_key';
-  UPLOADCARE_LOCALE = 'en';
-</script>
--->
-```
-
-**New (File Uploader):**
 ```erb
 <%= uploadcare_include_tag %>
 <!-- Results in:
@@ -79,39 +62,6 @@ The new File Uploader uses modern Web Components instead of the old jQuery-based
 </script>
 -->
 ```
-
-### Automatic Migration
-
-By default, the gem now uses the new File Uploader. **Your existing code will continue to work** because the gem automatically generates the new Web Components.
-
-### Legacy Mode
-
-If you need to use the old widget temporarily, set this in your `config/initializers/uploadcare.rb`:
-
-```ruby
-Uploadcare::Rails.configure do |config|
-  config.use_legacy_widget = true
-end
-```
-
-Or use the `legacy: true` option in view helpers:
-
-```erb
-<%= uploadcare_include_tag legacy: true %>
-<%= uploadcare_uploader_field :post, :picture, legacy: true %>
-```
-
-### Configuration Changes
-
-The new File Uploader has different configuration options. Here's a mapping:
-
-| Old Widget 3.x | New File Uploader | Notes |
-|----------------|-------------------|-------|
-| `images_only` | `img_only` | Alias provided for compatibility |
-| `tabs` | `source_list` | Format changed to string: "local, url, camera" |
-| `preview_step` | `confirm_upload` | Similar functionality |
-| `crop` | Use cloud image editor | `use_cloud_image_editor = true` |
-| `live`, `manual_start` | Not needed | Components auto-initialize |
 
 ### Uploader Modes
 
@@ -273,7 +223,6 @@ This helper uses a CDN-url for the File Uploader and supports these options:
 
 - **version** — version of the File Uploader. Default is "v1".
 - **min** — bool value detecting if the bundle must be minified. Default is `true`.
-- **legacy** — bool value to use legacy widget 3.x (deprecated). Default is `false`.
 - **modes** — array of uploader modes to load CSS for. Default is `['regular']`. Available modes: `'regular'`, `'minimal'`, `'inline'`.
 
 If you're using multiple uploader modes on the same page:
@@ -281,16 +230,6 @@ If you're using multiple uploader modes on the same page:
 ```erb
 <%= uploadcare_include_tag modes: ['regular', 'minimal', 'inline'] %>
 ```
-
-#### Legacy Widget 3.x (Deprecated)
-
-If you need to use the old widget temporarily:
-
-```erb
-<%= uploadcare_include_tag legacy: true %>
-```
-
-Or use asset pipeline/NPM as described in [legacy documentation](https://uploadcare.com/docs/uploads/file-uploader/#npm).
 
 #### Using NPM
 
@@ -359,7 +298,6 @@ Arguments:
 - **attribute** — object attribute name
 - **options** — Hash of options:
   - **mode**: Uploader mode: `'regular'` (default), `'minimal'`, `'inline'`
-  - **legacy**: Use legacy widget 3.x (default: `false`)
   - **config**: Hash of configuration options for the uploader
 
 Example with options:
@@ -417,15 +355,6 @@ end
     <%= submit_tag "Save" %>
   </div>
 <% end %>
-```
-
-**Legacy mode:**
-```erb
-<%= uploadcare_uploader_field :post, :picture, legacy: true %>
-<!--
-  results in:
-  <input role="uploadcare-uploader" multiple="false" type="hidden" name="post[picture]" id="post_picture">
--->
 ```
 
 #### Uploadcare File Group
