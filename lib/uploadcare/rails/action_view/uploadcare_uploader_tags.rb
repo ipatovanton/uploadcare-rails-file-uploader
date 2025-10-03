@@ -359,7 +359,8 @@ module Uploadcare
           normalized_options = config_options.transform_keys { |k| k.to_s.underscore.to_sym }
 
           # Add locale if present
-          attrs[:locale] = normalized_options[:locale] || config.locale if normalized_options[:locale] || config.locale
+          locale_value = normalized_options[:locale] || config.locale
+          attrs[:locale] = normalize_attr_value(locale_value) if locale_value
 
           # Add any custom config options (skip multiple - we handle it separately)
           normalized_options.each do |key, value|
@@ -368,7 +369,8 @@ module Uploadcare
             attr_name = key.to_s.dasherize.to_sym
             # Skip if value is the same as the key (invalid) or if already exists
             next if value.to_s == key.to_s || attrs.key?(attr_name)
-            attrs[attr_name] = value
+            # Normalize boolean values to strings for consistency
+            attrs[attr_name] = normalize_attr_value(value)
           end
 
           # Add img_only from global config if not already set
@@ -381,6 +383,17 @@ module Uploadcare
           attrs[:multiple] = is_multiple ? 'true' : 'false'
 
           attrs.compact
+        end
+
+        def normalize_attr_value(value)
+          case value
+          when TrueClass
+            'true'
+          when FalseClass
+            'false'
+          else
+            value.to_s
+          end
         end
       end
     end
