@@ -29,6 +29,9 @@ module Uploadcare
         # Handle comma-separated URLs format
         if cdn_url.present? && cdn_url.include?(',')
           cdn_url.split(',').map(&:strip)
+        elsif cdn_url.present? && !cdn_url.include?('~')
+          # Handle single file (just UUID without ~N)
+          [cdn_url]
         else
           # Handle group format (group_id~N)
           map_file_urls do |index|
